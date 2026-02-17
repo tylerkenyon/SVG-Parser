@@ -72,13 +72,29 @@ def display_element_tree(root, prefix=""):
 
 def main():
     """Main function to handle command-line argument and parse SVG."""
-    if len(sys.argv) < 2:
+    # Support both command-line argument and stdin input
+    if len(sys.argv) >= 2:
+        # Use command-line argument
+        svg_string = sys.argv[1]
+    elif not sys.stdin.isatty():
+        # Read from stdin (pipe or redirect)
+        svg_string = sys.stdin.read().strip()
+        if not svg_string:
+            print("Error: No input provided via stdin", file=sys.stderr)
+            sys.exit(1)
+    else:
+        # No input provided
         print("Usage: python svgparse.py '<svg_string>'", file=sys.stderr)
-        print("\nExample:", file=sys.stderr)
+        print("   or: python svgparse.py < input.svg", file=sys.stderr)
+        print("   or: echo '<svg>...</svg>' | python svgparse.py", file=sys.stderr)
+        print("\nCommand-line argument example:", file=sys.stderr)
         print('  python svgparse.py \'<svg xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40"/></svg>\'', file=sys.stderr)
+        print("\nStdin example (recommended for Windows):", file=sys.stderr)
+        print('  echo ^<svg^>^<circle cx="50" cy="50" r="40"/^>^</svg^> | python svgparse.py', file=sys.stderr)
         sys.exit(1)
     
-    svg_string = sys.argv[1]
+    # Remove leading/trailing whitespace
+    svg_string = svg_string.strip()
     
     try:
         root = parse_svg(svg_string)

@@ -12,6 +12,8 @@ A Python script that parses SVG strings and displays all elements in a hierarchi
 
 ## Usage
 
+### Method 1: Command-line Argument (Unix/Linux/Mac)
+
 ```bash
 python svgparse.py '<svg_string>'
 ```
@@ -23,12 +25,48 @@ chmod +x svgparse.py
 ./svgparse.py '<svg_string>'
 ```
 
+### Method 2: Stdin Input (Recommended for Windows)
+
+Due to Windows Command Prompt limitations with `<` and `>` characters, using stdin is recommended:
+
+**From a file:**
+```bash
+python svgparse.py < input.svg
+```
+
+**From piped input:**
+```bash
+echo ^<svg^>^<circle cx="50" cy="50" r="40"/^>^</svg^> | python svgparse.py
+```
+
+**Using the Windows batch file:**
+```cmd
+svgparse.bat input.svg
+```
+
+### Method 3: Piped Input (Cross-platform)
+
+```bash
+cat myfile.svg | python svgparse.py
+```
+
 ## Examples
 
-### Simple Circle
+### Simple Circle (Unix/Linux/Mac)
 
 ```bash
 python svgparse.py '<svg xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40"/></svg>'
+```
+
+### Simple Circle (Windows)
+
+```cmd
+echo ^<svg xmlns="http://www.w3.org/2000/svg"^>^<circle cx="50" cy="50" r="40"/^>^</svg^> | python svgparse.py
+```
+
+Or save to a file and use:
+```cmd
+python svgparse.py < circle.svg
 ```
 
 Output:
@@ -95,10 +133,28 @@ The script provides clear error messages for invalid input:
 python svgparse.py '<svg><invalid'
 ```
 
+Or on Windows:
+```cmd
+echo ^<svg^>^<invalid | python svgparse.py
+```
+
 Output:
 ```
 Error: Failed to parse SVG: unclosed token: line 1, column 5
 ```
+
+## Windows Command Prompt Note
+
+Windows CMD interprets `<` and `>` as redirect operators, which can cause errors like:
+```
+< was unexpected at this time.
+```
+
+**Solutions:**
+1. Use the stdin input method: `python svgparse.py < file.svg`
+2. Use piped input with escaped characters: `echo ^<svg^>...^</svg^> | python svgparse.py`
+3. Use the provided batch file: `svgparse.bat file.svg`
+4. Use PowerShell instead of CMD, which handles quotes better
 
 ## Requirements
 
