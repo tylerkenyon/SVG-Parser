@@ -75,7 +75,7 @@ def main():
     # Support both command-line argument and stdin input
     if len(sys.argv) >= 2:
         # Use command-line argument
-        svg_string = sys.argv[1]
+        svg_string = sys.argv[1].strip()
     elif not sys.stdin.isatty():
         # Read from stdin (pipe or redirect)
         svg_string = sys.stdin.read().strip()
@@ -92,9 +92,6 @@ def main():
         print("\nStdin example (recommended for Windows):", file=sys.stderr)
         print('  echo ^<svg^>^<circle cx="50" cy="50" r="40"/^>^</svg^> | python svgparse.py', file=sys.stderr)
         sys.exit(1)
-    
-    # Remove leading/trailing whitespace
-    svg_string = svg_string.strip()
     
     try:
         root = parse_svg(svg_string)
