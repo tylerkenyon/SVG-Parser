@@ -34,10 +34,11 @@ Due to Windows Command Prompt limitations with `<` and `>` characters, using std
 python svgparse.py < input.svg
 ```
 
-**From piped input:**
+**From piped input (simple SVG only):**
 ```bash
-echo ^<svg^>^<circle cx="50" cy="50" r="40"/^>^</svg^> | python svgparse.py
+echo ^<svg^>^<rect width="100" height="100"/^>^</svg^> | python svgparse.py
 ```
+Note: Echo with escaped characters only works reliably for simple SVG. For complex SVG with many attributes or special characters, use file redirection instead.
 
 **Using the Windows batch file:**
 ```cmd
