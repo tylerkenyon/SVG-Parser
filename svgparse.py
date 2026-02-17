@@ -92,8 +92,8 @@ def main():
         
         # Platform-specific stdin examples
         if sys.platform == 'win32':
-            print("\nStdin example (recommended for Windows):", file=sys.stderr)
-            print('  echo ^<svg^>^<circle cx="50" cy="50" r="40"/^>^</svg^> | python svgparse.py', file=sys.stderr)
+            print("\nWindows users:", file=sys.stderr)
+            print('  Recommended: python svgparse.py < file.svg', file=sys.stderr)
             print('  Or use PowerShell: python svgparse.py \'<svg>...</svg>\'', file=sys.stderr)
         
         sys.exit(1)
