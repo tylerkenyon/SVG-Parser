@@ -44,12 +44,6 @@ echo ^<svg^>^<circle cx="50" cy="50" r="40"/^>^</svg^> | python svgparse.py
 svgparse.bat input.svg
 ```
 
-### Method 3: Piped Input (Cross-platform)
-
-```bash
-cat myfile.svg | python svgparse.py
-```
-
 ## Examples
 
 ### Simple Circle (Unix/Linux/Mac)

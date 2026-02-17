@@ -89,8 +89,13 @@ def main():
         print("   or: echo '<svg>...</svg>' | python svgparse.py", file=sys.stderr)
         print("\nCommand-line argument example:", file=sys.stderr)
         print('  python svgparse.py \'<svg xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40"/></svg>\'', file=sys.stderr)
-        print("\nStdin example (recommended for Windows):", file=sys.stderr)
-        print('  echo ^<svg^>^<circle cx="50" cy="50" r="40"/^>^</svg^> | python svgparse.py', file=sys.stderr)
+        
+        # Platform-specific stdin examples
+        if sys.platform == 'win32':
+            print("\nStdin example (recommended for Windows):", file=sys.stderr)
+            print('  echo ^<svg^>^<circle cx="50" cy="50" r="40"/^>^</svg^> | python svgparse.py', file=sys.stderr)
+            print('  Or use PowerShell: python svgparse.py \'<svg>...</svg>\'', file=sys.stderr)
+        
         sys.exit(1)
     
     try:
