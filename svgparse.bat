@@ -15,5 +15,5 @@ if exist "%~1" (
     python "%~dp0svgparse.py" < "%~1"
 ) else (
     REM Try to treat it as an SVG string
-    echo %~1| python "%~dp0svgparse.py"
+    echo %~1 | python "%~dp0svgparse.py"
 )
