@@ -151,10 +151,14 @@ Windows CMD interprets `<` and `>` as redirect operators, which can cause errors
 ```
 
 **Solutions:**
-1. Use the stdin input method: `python svgparse.py < file.svg`
-2. Use piped input with escaped characters: `echo ^<svg^>...^</svg^> | python svgparse.py`
-3. Use the provided batch file: `svgparse.bat file.svg`
-4. Use PowerShell instead of CMD, which handles quotes better
+1. **Use stdin with file redirection (Recommended):** `python svgparse.py < file.svg`
+2. **Use piped input with escaped characters:** `echo ^<svg^>...^</svg^> | python svgparse.py` (Note: This only works for simple SVG strings)
+3. **Use the provided batch file with a file:** `svgparse.bat file.svg`
+4. **Use PowerShell (Better quote handling):**
+   ```powershell
+   python svgparse.py '<svg xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40"/></svg>'
+   ```
+   PowerShell handles quoted strings with `<` and `>` characters more reliably than CMD.
 
 ## Requirements
 
