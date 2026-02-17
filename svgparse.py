@@ -10,6 +10,21 @@ import sys
 import xml.etree.ElementTree as ET
 
 
+def strip_namespace(tag):
+    """
+    Remove XML namespace from tag name.
+    
+    Args:
+        tag (str): Tag name possibly containing namespace
+        
+    Returns:
+        str: Tag name without namespace
+    """
+    if '}' in tag:
+        return tag.split('}')[1]
+    return tag
+
+
 def parse_svg(svg_string):
     """
     Parse an SVG string and find all elements.
@@ -30,18 +45,16 @@ def parse_svg(svg_string):
         raise ET.ParseError(f"Failed to parse SVG: {e}") from e
 
 
-def find_all_elements(root, prefix=""):
+def display_element_tree(root, prefix=""):
     """
-    Recursively find and display all elements in the SVG tree.
+    Recursively display all elements in the SVG tree.
     
     Args:
         root (ET.Element): Root or current element to process
         prefix (str): Indentation prefix for hierarchical display
     """
     # Get the tag name, removing namespace if present
-    tag = root.tag
-    if '}' in tag:
-        tag = tag.split('}')[1]
+    tag = strip_namespace(root.tag)
     
     # Display the element
     print(f"{prefix}<{tag}>")
@@ -49,14 +62,12 @@ def find_all_elements(root, prefix=""):
     # Display attributes if any
     if root.attrib:
         for key, value in root.attrib.items():
-            attr_key = key
-            if '}' in attr_key:
-                attr_key = attr_key.split('}')[1]
+            attr_key = strip_namespace(key)
             print(f"{prefix}  {attr_key}=\"{value}\"")
     
     # Recursively process children
     for child in root:
-        find_all_elements(child, prefix + "  ")
+        display_element_tree(child, prefix + "  ")
 
 
 def main():
@@ -73,12 +84,10 @@ def main():
         root = parse_svg(svg_string)
         print("SVG Elements Found:")
         print("=" * 50)
-        find_all_elements(root)
+        display_element_tree(root)
         print("=" * 50)
         # Extract tag name without namespace for clearer output
-        tag_name = root.tag
-        if '}' in tag_name:
-            tag_name = tag_name.split('}')[1]
+        tag_name = strip_namespace(root.tag)
         print(f"\nSuccessfully parsed SVG with root element: {tag_name}")
     except ET.ParseError as e:
         print(f"Error: {e}", file=sys.stderr)
