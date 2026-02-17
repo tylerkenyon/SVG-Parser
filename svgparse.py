@@ -27,7 +27,7 @@ def parse_svg(svg_string):
         root = ET.fromstring(svg_string)
         return root
     except ET.ParseError as e:
-        raise ET.ParseError(f"Failed to parse SVG: {e}")
+        raise ET.ParseError(f"Failed to parse SVG: {e}") from e
 
 
 def find_all_elements(root, prefix=""):
@@ -75,7 +75,11 @@ def main():
         print("=" * 50)
         find_all_elements(root)
         print("=" * 50)
-        print(f"\nSuccessfully parsed SVG with root element: {root.tag}")
+        # Extract tag name without namespace for clearer output
+        tag_name = root.tag
+        if '}' in tag_name:
+            tag_name = tag_name.split('}')[1]
+        print(f"\nSuccessfully parsed SVG with root element: {tag_name}")
     except ET.ParseError as e:
         print(f"Error: {e}", file=sys.stderr)
         sys.exit(1)
